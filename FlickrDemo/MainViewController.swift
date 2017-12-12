@@ -13,12 +13,14 @@ class MainViewController: UIViewController, UITextFieldDelegate, UICollectionVie
     var collectionView: UICollectionView!
     var itemsPerRow: CGFloat!
     let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+    var apiKey: String!
+    var searchTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let searchTextField = UITextField(frame: CGRect(x: 20, y: 100, width: 300, height: 40))
+        searchTextField = UITextField(frame: CGRect(x: 20, y: 100, width: 300, height: 40))
         searchTextField.placeholder = "Search"
         searchTextField.font = UIFont.systemFont(ofSize: 15)
         searchTextField.borderStyle = UITextBorderStyle.roundedRect
@@ -52,6 +54,11 @@ class MainViewController: UIViewController, UITextFieldDelegate, UICollectionVie
         default:
             itemsPerRow = 1
         }
+        
+        
+//        if let path = Bundle.main.path(forResource: "Config", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
+//            print("api_key = \(String(describing: dict["api_key"]))")
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,23 +74,35 @@ class MainViewController: UIViewController, UITextFieldDelegate, UICollectionVie
         activityIndicator.startAnimating()
         
         // Do search here
-        activityIndicator.removeFromSuperview()
-            
-//            if let error = error {
-//                // 2
-//                print("Error searching : \(error)")
-//                return
-//            }
-//
-//            if let results = results {
-//                // 3
-//                print("Found \(results.searchResults.count) matching \(results.searchTerm)")
-//                self.searches.insert(results, at: 0)
-//
-//                // 4
-//                self.collectionView?.reloadData()
-//            }
         
+        let flickrQuery = FlickrPhotoQuery()
+        
+        guard let searchText = searchTextField.text else { return true }
+        
+        if searchText == "" {
+            let alert = UIAlertController(title: "No search term", message: "Please enter a search term.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+        
+            flickrQuery.query(queryString: searchText)
+            activityIndicator.removeFromSuperview()
+            
+    //            if let error = error {
+    //                // 2
+    //                print("Error searching : \(error)")
+    //                return
+    //            }
+    //
+    //            if let results = results {
+    //                // 3
+    //                print("Found \(results.searchResults.count) matching \(results.searchTerm)")
+    //                self.searches.insert(results, at: 0)
+    //
+    //                // 4
+    //                self.collectionView?.reloadData()
+    //            }
+        }
         textField.text = nil
         textField.resignFirstResponder()
         return true

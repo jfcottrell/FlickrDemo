@@ -29,8 +29,8 @@ struct FlickrPhotoQuery {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else { return }
             do {
-                //let str = String(data: data, encoding: String.Encoding.utf8) as String!         // DEBUG use only
-                let query = try JSONDecoder().decode(Query.self, from: data)
+                //let str = String(data: data, encoding: String.Encoding.utf8) as String!           // DEBUG use only
+                let query = try JSONDecoder().decode(Query.self, from: data)                        // decode json using new Swift4 decoder (yeah!)
                 let queryResults: QueryResults = query.photos
                 self.delegate?.queryDataLoaded(results: queryResults)
             } catch let jsonError {

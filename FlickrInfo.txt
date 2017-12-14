@@ -1,0 +1,42 @@
+Resources used in app creation
+
+Overview of UICollectionView and Flickr integration:
+https://www.raywenderlich.com/136159/uicollectionview-tutorial-getting-started
+
+WWDC video on UICollectionView and prefetching:
+https://developer.apple.com/videos/play/wwdc2016/219/
+
+Book: "IOSAPPS for Masterminds 2nd Edition" J.D. Gauchat
+
+Book: "The Swift Programming Language (Swift 4.0.3)" Apple Inc.
+
+Discussion of closure completion handlers: https://stackoverflow.com/questions/40184468/convert-data-to-string-in-swift-3
+
+Flickr sample data:
+
+https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=99042481673c83f4132e0fe25e49fdeb&text=747&per_page=4&page=10&format=json&nojsoncallback=1
+
+{"photos":
+  {"page":1,"pages":187067,"perpage":4,"total":"748267","photo":[
+    {"id":"38233769474","owner":"32829782@N02","secret":"abc01f7e10","server":"4575","farm":5,"title":"Thai Airways (TG\/THA) \/ 747-3D7 \/ HS-TGE \/ 12-17-2006 \/ HKG","ispublic":1,"isfriend":0,"isfamily":0},
+    {"id":"38913248812","owner":"54234383@N08","secret":"7f9c033ddf","server":"4534","farm":5,"title":"MPH B744 PH-CKA KMIA 02\/NOV\/17","ispublic":1,"isfriend":0,"isfamily":0},
+    {"id":"27172641339","owner":"140550898@N04","secret":"a02ca6be38","server":"4638","farm":5,"title":"Boeing 747-438(ER) | Qantas | VH-OEF (OneWorld Livery)","ispublic":1,"isfriend":0,"isfamily":0},
+    {"id":"38233447634","owner":"125916704@N02","secret":"0fb5abd1f2","server":"4643","farm":5,"title":"Cargolux Airlines International Boeing 747-8R7F LX-VCD","ispublic":1,"isfriend":0,"isfamily":0}]
+  },"stat":"ok"}
+
+  https://farm[FARM].staticflickr.com/[SERVER]/ID_[SECRET]/[SIZE].jpg
+  https://farm5.staticflickr.com/4575/38233769474_abc01f7e10_m.jpg
+
+As always there was too little time to get the app to high degree of polish within a small window of a few hours.
+
+Known issues:
+* The app doesn't handle device rotation properly. While an attempt was made, the lack of storyboards made this
+much more of a challenge than anticipated (eventually I punted).
+* The app doesn't handle running out of flickr pages. Part of the issue was that each time Flickr was queried for
+a new set of pages (same search term) the count changed.
+* Photos downloaded from Flickr are stored in a simple array. As the array grows, more memory is consumed. A more intelligent
+storage scheme might discard photos at the top of the array as the user scolls down (and vice-versa).
+* Very little unit testing. I had budgeted more time for this but trying to solve the first issue above blew my budget for this.
+* The UICollectionView prefetch could be implemented using NSOperationQueues, which would allow for downloads to be cancelled.
+* UICollectionView cells are all the same size. They could be custom sized to the content if required.
+* git commit history sucks. Normally would branch and make smaller more atomic commits.

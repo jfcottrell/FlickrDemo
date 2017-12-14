@@ -16,8 +16,6 @@ extension Favorites {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Favorites> {
         return NSFetchRequest<Favorites>(entityName: "Favorites")
     }
-
     @NSManaged public var id: String?
     @NSManaged public var image: NSData?
-
 }

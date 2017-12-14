@@ -121,7 +121,6 @@ class MainViewController: UIViewController, UITextFieldDelegate, UICollectionVie
         let photos = results.photo
         for photoInfo in photos {
             // check to see if photo is saved as a favorite
-            print("photoInfo.id = \(photoInfo.id)")
             downloadImage(photoInfo: photoInfo, photoCount: 0)
         }
     }
